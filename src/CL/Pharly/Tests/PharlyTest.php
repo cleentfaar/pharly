@@ -11,7 +11,6 @@
 
 namespace CL\Pharly\Tests;
 
-use CL\Pharly\Exception\ExtractionException;
 use CL\Pharly\Pharly;
 
 class PharlyTest extends \PHPUnit_Framework_TestCase
@@ -126,11 +125,11 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Recursively removes a directory that may have been created during extraction
+     * Recursively removes a directory that may have been created during extraction.
      *
-     * @param string $path Path to the directory
+     * @param string $path Path to the directory.
      *
-     * @return bool When removal was successful
+     * @return bool When removal was successful.
      */
     protected function rmdirRecursive($path)
     {
@@ -148,7 +147,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a testing location used to extract archives
+     * Returns a testing location used to extract archives.
      *
      * @return string The resulting path.
      */
@@ -161,8 +160,8 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
      * Creates an archive from a given extension, to be used during tests.
      *
      * @param string $extension      The extension to create the archive with.
-     * @param bool   $allowOverwrite Whether overwriting of existing archives should be allowed
-     * @param array  $contents
+     * @param bool   $allowOverwrite Whether overwriting of existing archives should be allowed.
+     * @param array  $contents       The contents of the archive
      *
      * @return \PharData The created archive.
      */
@@ -193,7 +192,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return string
+     * @return string The path to a testing file that can be used to create a new archive with.
      */
     protected function getPathToTestFile()
     {
