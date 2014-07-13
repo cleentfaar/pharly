@@ -123,7 +123,7 @@ class Pharly
             case 'gz':
                 return \Phar::GZ;
             case 'bz2':
-                return \Phar::GZ;
+                return \Phar::BZ2;
             default:
                 throw new \InvalidArgumentException(sprintf(
                     'There is no algorithm that supports that extension: "%s" (found in path: %s)',
