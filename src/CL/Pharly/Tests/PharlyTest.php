@@ -89,7 +89,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     {
         $destination = __DIR__ . '/test_archive/test_archive.zip';
         $archive     = $this->pharly->archive($destination, [], \Phar::ZIP);
-        $this->pharly->extract($archive->getPath(), __DIR__ . '/test_extract/testdir', ['non/existing/file.txt']);
+        $this->pharly->extract($destination, __DIR__ . '/test_extract/testdir', ['non/existing/file.txt']);
         unlink($destination);
     }
 
@@ -117,7 +117,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     {
         $destination = $this->getPathToArchive($extension);
         $archive     = $this->createArchive($extension);
-        $this->pharly->extract($archive->getPath(), $this->getPathToExtractionDir());
+        $this->pharly->extract($destination, $this->getPathToExtractionDir());
         $extractedFilePath = $this->getPathToExtractionDir() . 'my/file.txt';
         $this->assertFileExists($extractedFilePath);
         $this->assertContains('Hello World!', file_get_contents($extractedFilePath));
