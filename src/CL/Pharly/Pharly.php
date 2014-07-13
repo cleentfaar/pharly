@@ -39,7 +39,8 @@ class Pharly
         $format = null,
         $allowOverwrite = false,
         $deleteOriginal = false
-    ) {
+    )
+    {
         if ($format === null) {
             $format = $this->determineFormat($destination);
         } else {
