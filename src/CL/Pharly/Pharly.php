@@ -143,7 +143,7 @@ class Pharly
     protected function createArchive($format, $destination, array $contents = [])
     {
         try {
-            $archive = new \PharData($destination);
+            $archive = new \PharData($destination, null, $format);
             foreach ($contents as $pathInArchive => $path) {
                 if (is_integer($pathInArchive)) {
                     $pathInArchive = null;
