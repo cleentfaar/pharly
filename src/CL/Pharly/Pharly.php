@@ -137,8 +137,7 @@ class Pharly
      *
      * @return \PharData
      *
-     * @throws ArchivalException      If the archive could not be created.
-     * @throws InvalidFormatException If the given format is not supported.
+     * @throws ArchivalException If the archive could not be created.
      */
     protected function createArchive($format, $destination, array $contents = [])
     {
@@ -158,19 +157,31 @@ class Pharly
             throw new ArchivalException(sprintf('Failed to create archive with path: %s', $destination), null, $e);
         }
 
+        $this->compress($format, $archive, $this->extractExtension($destination));
+
+        return $archive;
+    }
+
+    /**
+     * @param int       $format
+     * @param \PharData $archive
+     * @param string    $extension
+     *
+     * @throws InvalidFormatException If the given format is not supported.
+     */
+    protected function compress($format, \PharData $archive, $extension)
+    {
         switch ($format) {
             case \Phar::ZIP:
             case \Phar::TAR:
                 break;
             case \Phar::GZ:
             case \Phar::BZ2:
-                $archive->compress($format, $this->extractExtension($destination));
+                $archive->compress($format, $extension);
                 break;
             default:
                 throw new InvalidFormatException($format);
         }
-
-        return $archive;
     }
 
     /**
