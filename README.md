@@ -10,19 +10,18 @@ A PHP library for the archiving and extraction of files and directories in ``.zi
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/afaf949b-ea54-44b0-a2b4-bda1ef7190ea/mini.png)](https://insight.sensiolabs.com/projects/afaf949b-ea54-44b0-a2b4-bda1ef7190ea)
 [![Total Downloads](https://poser.pugx.org/cleentfaar/pharly/downloads.svg)](https://packagist.org/packages/cleentfaar/pharly) [![License](https://poser.pugx.org/cleentfaar/pharly/license.svg)](https://packagist.org/packages/cleentfaar/pharly)
 
-### Pharly?
-
-The name for this library has been derived from the [PHAR extension](http://pecl.php.net/package/phar) that has been
-built-in with PHP since ``5.2.0``.
-
-Pharly heavily relies on PHAR's file-abstractions for it's archiving and extraction routines, which it in turn uses
-from the PHP_Archive package.
-
 
 ### Documentation
 
 - [Installation](Resources/doc/installation.md)
 - [Usage examples](Resources/doc/usage.md)
+
+
+### Pharly?
+
+The name for this library has been derived from the [PHAR extension](http://pecl.php.net/package/phar) that has been
+built-in with PHP since ``5.2.0``. Pharly heavily relies on PHAR's file-abstractions for it's archiving and extraction
+routines, which it in turn uses from the [PHP_Archive package](http://pear.php.net/package/PHP_Archive).
 
 
 ### Thanks to
