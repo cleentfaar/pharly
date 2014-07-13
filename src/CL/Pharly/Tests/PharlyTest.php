@@ -75,6 +75,14 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \CL\Pharly\Exception\ArchivalException
+     */
+    public function testArchiveNonExistingFiles()
+    {
+        $this->createArchive('.zip', false, ['path/to/nonexistingfile']);
+    }
+
+    /**
      * @expectedException \CL\Pharly\Exception\ExtractionException
      */
     public function testExtractNonExistingFiles()
@@ -153,18 +161,22 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $extension      The extension to create the archive with.
      * @param bool   $allowOverwrite Whether overwriting of existing archives should be allowed
+     * @param array  $contents
      *
      * @return \PharData The created archive.
      */
-    protected function createArchive($extension, $allowOverwrite = false)
+    protected function createArchive($extension, $allowOverwrite = false, array $contents = [])
     {
         $destination = $this->getPathToArchive($extension);
         if (file_exists($destination)) {
             unlink($destination);
         }
-        $archive = $this->pharly->archive($destination, [
-            'my/file.txt' => $this->getPathToTestFile(),
-        ], null, $allowOverwrite);
+        if (empty($contents)) {
+            $contents = [
+                'my/file.txt' => $this->getPathToTestFile(),
+            ];
+        }
+        $archive = $this->pharly->archive($destination, $contents, null, $allowOverwrite);
 
         return $archive;
     }

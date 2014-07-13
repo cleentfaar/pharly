@@ -44,7 +44,6 @@ class Pharly
         } else {
             $destination = $this->ensureExtension($destination, $format);
         }
-        var_dump($destination);
         if ($allowOverwrite === false && file_exists($destination)) {
             throw new \LogicException(sprintf(
                 'Couldn\'t create archive with destination: "%s"; it already exists and $allowOverwrite is FALSE',
