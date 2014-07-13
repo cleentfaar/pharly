@@ -1,7 +1,7 @@
 {
   "name": "cleentfaar/pharly",
   "description": "A PHP library for the archiving and extraction of files and directories in .zip, .tar, .tar.gz, and .tar.bz2 formats.",
-  "keywords": ["archive", "phar", "tar", "zip", "gz", "bz2"],
+  "keywords": ["archive", "tar", "zip", "gz", "bz2"],
   "type": "library",
   "license": "MIT",
   "authors": [

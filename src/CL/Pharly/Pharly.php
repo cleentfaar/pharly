@@ -112,7 +112,7 @@ class Pharly
      */
     protected function determineFormat($path)
     {
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $extension = $this->extractExtension($path);
 
         switch ($extension) {
             case '.tar':
@@ -144,11 +144,14 @@ class Pharly
     {
         try {
             $archive = new \PharData($destination);
-            foreach ($contents as $path) {
+            foreach ($contents as $pathInArchive => $path) {
+                if (is_integer($pathInArchive)) {
+                    $pathInArchive = null;
+                }
                 if (is_dir($path)) {
-                    $archive->buildFromDirectory($path);
+                    $archive->buildFromDirectory($path, $pathInArchive);
                 } else {
-                    $archive->addFile($path);
+                    $archive->addFile($path, $pathInArchive);
                 }
             }
         } catch (\PharException $e) {
@@ -161,12 +164,28 @@ class Pharly
                 break;
             case \Phar::GZ:
             case \Phar::BZ2:
-                $archive->compress($format);
+                $archive->compress($format, $this->extractExtension($destination));
                 break;
             default:
                 throw new InvalidFormatException($format);
         }
 
         return $archive;
+    }
+
+    /**
+     * @param string $path Path to determine the file extension from.
+     *
+     * @return string|null The extension or null if no extension could be extracted from the given path.
+     */
+    protected function extractExtension($path)
+    {
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (!empty($extension)) {
+            return $extension;
+        }
+
+        return null;
     }
 }

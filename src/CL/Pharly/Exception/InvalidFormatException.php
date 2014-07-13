@@ -18,7 +18,7 @@ class InvalidFormatException extends \Exception
      * @param int        $code          [optional] The Exception code.
      * @param \Exception $previous      [optional] The previous exception used for the exception chaining.
      */
-    public function __construct($invalidFormat, $code, \Exception $previous = null)
+    public function __construct($invalidFormat, $code = 0, \Exception $previous = null)
     {
         $message = sprintf('The given format "%s" is not supported, use either "phar", "zip" or "tar"', $invalidFormat);
 
