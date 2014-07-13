@@ -1,0 +1,31 @@
+{
+  "name": "cleentfaar/pharly",
+  "description": "A PHP library for the archiving and extraction of files and directories in .zip, .tar, .tar.gz, and .tar.bz2 formats.",
+  "keywords": ["archive", "phar", "tar", "zip", "gz", "bz2"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Cas Leentfaar",
+      "homepage": "https://github.com/cleentfaar",
+      "email": "info@casleentfaar.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.1"
+  },
+  "autoload": {
+    "psr-0": {
+      "CL\\Pharly": ""
+    }
+  },
+  "target-dir": "CL/Pharly",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
