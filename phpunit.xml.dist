@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="false" bootstrap="vendor/autoload.php">
+<phpunit colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="CLArchiverBundle Test Suite">
-            <directory suffix="Test.php">./Tests/</directory>
+        <testsuite name="Pharly Test Suite">
+            <directory suffix="Test.php">./src/CL/Pharly/Tests/</directory>
         </testsuite>
     </testsuites>
-
     <filter>
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./DependencyInjection</directory>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
+                <directory>./src/CL/Pharly/Resources</directory>
+                <directory>./src/CL/Pharly/Tests</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>

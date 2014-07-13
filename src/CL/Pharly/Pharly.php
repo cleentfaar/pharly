@@ -116,12 +116,14 @@ class Pharly
         $extension = $this->extractExtension($path);
 
         switch ($extension) {
-            case '.tar':
-                return \Phar::TAR;
-            case '.tar.gz':
-                return \Phar::GZ;
-            case '.zip':
+            case 'zip':
                 return \Phar::ZIP;
+            case 'tar':
+                return \Phar::TAR;
+            case 'gz':
+                return \Phar::GZ;
+            case 'bz2':
+                return \Phar::GZ;
             default:
                 throw new \InvalidArgumentException(sprintf(
                     'There is no algorithm that supports that extension: "%s" (found in path: %s)',
