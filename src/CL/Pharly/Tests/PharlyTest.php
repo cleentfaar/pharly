@@ -88,7 +88,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     public function testExtractNonExistingFiles()
     {
         $destination = __DIR__ . '/test_archive/test_archive.zip';
-        $archive     = $this->pharly->archive($destination, [], \Phar::ZIP);
+        $this->pharly->archive($destination, [], \Phar::ZIP);
         $this->pharly->extract($destination, __DIR__ . '/test_extract/testdir', ['non/existing/file.txt']);
         unlink($destination);
     }
@@ -116,7 +116,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     protected function createAndTestArchiveExtraction($extension)
     {
         $destination = $this->getPathToArchive($extension);
-        $archive     = $this->createArchive($extension);
+        $this->createArchive($extension);
         $this->pharly->extract($destination, $this->getPathToExtractionDir());
         $extractedFilePath = $this->getPathToExtractionDir() . 'my/file.txt';
         $this->assertFileExists($extractedFilePath);

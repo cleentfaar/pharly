@@ -140,6 +140,9 @@ tools:
         excluded_dirs:
             - Tests
             - vendor
-    php_analyzer: true
+    php_analyzer:
+        filter:
+            paths:
+                - 'src/*'
     sensiolabs_security_checker: true
     external_code_coverage: true
