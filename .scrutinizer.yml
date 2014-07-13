@@ -130,7 +130,6 @@ tools:
     php_cs_fixer:
         config:
             level: all
-    php_hhvm: true
     php_loc:
         excluded_dirs:
             - Tests
