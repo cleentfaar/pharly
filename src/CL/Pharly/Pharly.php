@@ -19,12 +19,12 @@ class Pharly
 {
     /**
      * @param string|null       $destination    The destination of the archive.
-     *                                          Currently only 'phar', 'zip' and 'tar' are supported
      * @param string|array|null $contents       The file(s) or director(y/ies) to archive.
+     *                                          Use an array for multiple files/directories.
      *                                          Leave as null to only create the archive.
-     * @param string|null       $format         The format used for archiving, leave null to determine
+     * @param string|null       $format         The format used for archiving, leave as null to determine
      *                                          it from the destination's extension.
-     * @param bool              $allowOverwrite Whether overwrite of an existing archive should be allowed.
+     * @param bool              $allowOverwrite Whether overwriting an existing archive should be allowed.
      * @param bool              $deleteOriginal Whether the original files should be deleted when
      *                                          archiving has been successful.
      *
