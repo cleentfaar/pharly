@@ -27,17 +27,6 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /*
-        $pharlyMockBuilder = $this->getMockBuilder('\CL\Pharly\Pharly');
-        $pharlyMockBuilder->setMethods([
-            'archive',
-            'extract',
-            'createArchive',
-        ]);
-        $archiveMock      = $this->getMockBuilder('\PharData')->disableOriginalConstructor()->getMock();
-        $this->pharlyMock = $pharlyMockBuilder->getMock();
-        $this->pharlyMock->expects($this->any())->method('createArchive')->will($this->returnValue($archiveMock));
-        */
         $this->pharly = new Pharly();
     }
 
