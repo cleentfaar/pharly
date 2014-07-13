@@ -78,7 +78,7 @@ class Pharly
         try {
             $phar = new \PharData($path);
             $phar->extractTo($destination, $files, $allowOverwrite);
-        } catch (\PharException $e) {
+        } catch (\Exception $e) {
             throw new ExtractionException(
                 sprintf('Failed to extract contents from archive with path: "%s"', $destination), null, $e
             );
@@ -116,13 +116,13 @@ class Pharly
         $extension = $this->extractExtension($path);
 
         switch ($extension) {
-            case 'zip':
+            case '.zip':
                 return \Phar::ZIP;
-            case 'tar':
+            case '.tar':
                 return \Phar::TAR;
-            case 'gz':
+            case '.tar.gz':
                 return \Phar::GZ;
-            case 'bz2':
+            case '.tar.bz2':
                 return \Phar::BZ2;
             default:
                 throw new \InvalidArgumentException(sprintf(
@@ -145,46 +145,36 @@ class Pharly
     protected function createArchive($format, $destination, array $contents = [])
     {
         try {
-            $archive = new \PharData($destination, null, $format);
+            $archive = new \PharData($destination, null, null, $format);
             foreach ($contents as $pathInArchive => $path) {
                 if (is_integer($pathInArchive)) {
                     $pathInArchive = null;
                 }
+                if (!is_readable($path)) {
+                    throw new ArchivalException(sprintf(
+                        'Could not add the given file/dir to the archive: %s, it doesn\'t exist',
+                        $path
+                    ));
+                }
                 if (is_dir($path)) {
-                    $archive->buildFromDirectory($path, $pathInArchive);
+                    $archive->buildFromDirectory($path);
                 } else {
-                    $archive->addFile($path, $pathInArchive);
+                    if ($pathInArchive !== null) {
+                        $archive->addFile($path, $pathInArchive);
+                    } else {
+                        $archive->addFile($path);
+                    }
                 }
             }
-        } catch (\PharException $e) {
-            throw new ArchivalException(sprintf('Failed to create archive with path: %s', $destination), null, $e);
+        } catch (\Exception $e) {
+            throw new ArchivalException(
+                sprintf('Failed to create archive with destination: %s', $destination),
+                null,
+                $e
+            );
         }
-
-        $this->compress($format, $archive, $this->extractExtension($destination));
 
         return $archive;
-    }
-
-    /**
-     * @param int       $format
-     * @param \PharData $archive
-     * @param string    $extension
-     *
-     * @throws InvalidFormatException If the given format is not supported.
-     */
-    protected function compress($format, \PharData $archive, $extension)
-    {
-        switch ($format) {
-            case \Phar::ZIP:
-            case \Phar::TAR:
-                break;
-            case \Phar::GZ:
-            case \Phar::BZ2:
-                $archive->compress($format, $extension);
-                break;
-            default:
-                throw new InvalidFormatException($format);
-        }
     }
 
     /**
@@ -194,7 +184,13 @@ class Pharly
      */
     protected function extractExtension($path)
     {
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        $parts     = pathinfo($path);
+        $extension = array_key_exists('extension', $parts) ? '.' . $parts['extension'] : null;
+        if ($extension == '.gz' || $extension == '.bz2') {
+            $earlierExtension = pathinfo($parts['filename'], PATHINFO_EXTENSION);
+            $extension        = ($earlierExtension ? '.' . $earlierExtension : '') . $extension;
+        }
 
         if (!empty($extension)) {
             return $extension;

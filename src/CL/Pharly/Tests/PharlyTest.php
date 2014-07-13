@@ -32,16 +32,50 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
 
     public function testArchive()
     {
-        $destination = __DIR__ . '/tests/test_archive.zip';
-        $contents    = [
-            __DIR__ . '/tests/test_file.txt',
-        ];
-        $archive     = $this->pharly->archive($destination, $contents);
-        $this->assertInstanceOf('\PharData', $archive);
+        $this->createAndTestArchive('zip');
+        $this->createAndTestArchive('tar');
+        $this->createAndTestArchive('tar.gz');
+        $this->createAndTestArchive('tar.bz2');
     }
 
     public function testExtract()
     {
         $this->markTestIncomplete('Not yet...');
+    }
+
+    /**
+     * @param string $extension
+     */
+    protected function createAndTestArchive($extension)
+    {
+        $destination = $this->getPathToArchive($extension);
+        if (file_exists($destination)) {
+            unlink($destination);
+        }
+        $archive     = $this->pharly->archive($destination, [
+            'my/file.txt' => $this->getPathToTestFile(),
+        ]);
+        $this->assertInstanceOf('\PharData', $archive);
+        $this->assertTrue(file_exists($destination));
+        $this->assertContains('Hello World!', $archive['my/file.txt']->getContent());
+        unlink($destination);
+    }
+
+    /**
+     * @param string $extension
+     *
+     * @return string
+     */
+    protected function getPathToArchive($extension)
+    {
+        return sprintf(__DIR__ . '/test_archive/test_archive.%s', $extension);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPathToTestFile()
+    {
+        return __DIR__ . '/test_archive/test_file.txt';
     }
 }
