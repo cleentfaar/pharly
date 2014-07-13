@@ -30,6 +30,9 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
         $this->pharly = new Pharly();
     }
 
+    /**
+     * Tests the 'archive()' method for each of the available formats/extensions
+     */
     public function testArchive()
     {
         $this->createAndTestArchive('.zip');
@@ -38,6 +41,9 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
         $this->createAndTestArchive('.tar.bz2');
     }
 
+    /**
+     * Tests the 'extract()' method for each of the available formats/extensions
+     */
     public function testExtract()
     {
         $this->createAndTestArchiveExtraction('.zip');
@@ -47,7 +53,9 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $extension
+     * Creates an archive and asserts whether it has the correct content.
+     *
+     * @param string $extension The file extension to determine what kind of archive to create.
      */
     protected function createAndTestArchive($extension)
     {
@@ -59,6 +67,11 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
         unlink($destination);
     }
 
+    /**
+     * Creates a testing archive and asserts whether it can be extracted successfully.
+     *
+     * @param string $extension The file extension to determine what kind of archive to create.
+     */
     protected function createAndTestArchiveExtraction($extension)
     {
         $destination = $this->getPathToArchive($extension);
