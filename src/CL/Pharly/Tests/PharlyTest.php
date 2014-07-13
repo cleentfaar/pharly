@@ -11,6 +11,7 @@
 
 namespace CL\Pharly\Tests;
 
+use CL\Pharly\Exception\ExtractionException;
 use CL\Pharly\Pharly;
 
 class PharlyTest extends \PHPUnit_Framework_TestCase
@@ -50,6 +51,38 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
         $this->createAndTestArchiveExtraction('.tar');
         $this->createAndTestArchiveExtraction('.tar.gz');
         $this->createAndTestArchiveExtraction('.tar.bz2');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidFormat()
+    {
+        $this->createArchive('.abc');
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testOverwriteLogic()
+    {
+        // create the initial archive
+        $this->createArchive('zip');
+
+        // create another archive with same destination,
+        // overwriting the existing archive should be prevented if $allowOverwrite is false
+        $this->createArchive('zip', false);
+    }
+
+    /**
+     * @expectedException \CL\Pharly\Exception\ExtractionException
+     */
+    public function testExtractNonExistingFiles()
+    {
+        $destination = __DIR__ . '/test_archive/test_archive.zip';
+        $archive     = $this->pharly->archive($destination, [], \Phar::ZIP);
+        $this->pharly->extract($archive->getPath(), __DIR__ . '/test_extract/testdir', ['non/existing/file.txt']);
+        unlink($destination);
     }
 
     /**
@@ -118,11 +151,12 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     /**
      * Creates an archive from a given extension, to be used during tests.
      *
-     * @param string $extension The extension to create the archive with.
+     * @param string $extension      The extension to create the archive with.
+     * @param bool   $allowOverwrite Whether overwriting of existing archives should be allowed
      *
      * @return \PharData The created archive.
      */
-    protected function createArchive($extension)
+    protected function createArchive($extension, $allowOverwrite = false)
     {
         $destination = $this->getPathToArchive($extension);
         if (file_exists($destination)) {
@@ -130,7 +164,7 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
         }
         $archive = $this->pharly->archive($destination, [
             'my/file.txt' => $this->getPathToTestFile(),
-        ]);
+        ], null, $allowOverwrite);
 
         return $archive;
     }

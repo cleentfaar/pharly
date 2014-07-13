@@ -13,7 +13,6 @@ namespace CL\Pharly;
 
 use CL\Pharly\Exception\ArchivalException;
 use CL\Pharly\Exception\ExtractionException;
-use CL\Pharly\Exception\InvalidFormatException;
 
 class Pharly
 {
@@ -30,8 +29,7 @@ class Pharly
      *
      * @return \PharData The created archive.
      *
-     * @throws InvalidFormatException If the given format is not supported.
-     * @throws \LogicException        If the given destination already exists and $allowOverwrite is false.
+     * @throws \LogicException If the given destination already exists and $allowOverwrite is false.
      */
     public function archive(
         $destination,
@@ -46,6 +44,7 @@ class Pharly
         } else {
             $destination = $this->ensureExtension($destination, $format);
         }
+        var_dump($destination);
         if ($allowOverwrite === false && file_exists($destination)) {
             throw new \LogicException(sprintf(
                 'Couldn\'t create archive with destination: "%s"; it already exists and $allowOverwrite is FALSE',
