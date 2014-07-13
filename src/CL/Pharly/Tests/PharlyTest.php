@@ -136,10 +136,11 @@ class PharlyTest extends \PHPUnit_Framework_TestCase
     {
         $files = array_diff(scandir($path), array('.', '..'));
         foreach ($files as $file) {
-            if (is_dir("$path/$file")) {
-                $this->rmdirRecursive("$path/$file");
+            $pathFile = sprintf("%s/%s", $path, $file);
+            if (is_dir($pathFile)) {
+                $this->rmdirRecursive($pathFile);
             } else {
-                unlink("$path/$file");
+                unlink($pathFile);
             }
         }
 
